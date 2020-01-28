@@ -1,15 +1,16 @@
 # Arquitectura propuesta
 
 ## MVP
+Un menú selector de juego (PvP, PvS) que te lleve a un tablero de juego montado en un servidor con una interfaz de usuario estéticamente decente.
 
 ## User Stories
 * Yo, Fulano, entro a BattleShipOnline. **(MVP)**
 * Veo el promocional de la página princial.
-* Creo una cuenta con un nombre de usuario único y una contraseña. **(MVP)**
+* Creo una cuenta con un nombre de usuario único y una contraseña.
 * Se me muestra el dashboard.
 * Se me da la opción de jugar contra una computadora para entrenar.
 * Juego contra la computadora y gano N XP.
-* Subo a nivel 1. **(MVP)**
+* Subo a nivel 1.
 * Entro al lobby.
 * Se me propone un match contra Sutano, **(MVP)** que es nivel 2.
 * Sutano se da cuenta que mi nivel es muy bajo para su poder y niega el juego. **(MVP)**
