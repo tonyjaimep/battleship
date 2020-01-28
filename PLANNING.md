@@ -1,19 +1,19 @@
 # Arquitectura propuesta
 ## User Stories
-* Yo, Fulano, entro a BattleShipOnline.
+* Yo, Fulano, entro a BattleShipOnline. **(MVP)**
 * Veo el promocional de la página princial.
-* Creo una cuenta con un nombre de usuario único y una contraseña.
+* Creo una cuenta con un nombre de usuario único y una contraseña. **(MVP)**
 * Se me muestra el dashboard.
 * Se me da la opción de jugar contra una computadora para entrenar.
 * Juego contra la computadora y gano N XP.
-* Subo a nivel 1.
-* Entro al lobby.
-* Se me propone un match contra Sutano, que es nivel 2.
-* Sutano se da cuenta que mi nivel es muy bajo para su poder y niega el juego.
-* Vuelvo al lobby.
-* Se me propone un match contra Rumano y ambos aceptamos.
-* Se me presenta el tablero.
-* // start game loop
+* Subo a nivel 1. **(MVP)**
+* Entro al lobby. **(MVP)**
+* Se me propone un match contra Sutano, **(MVP)** que es nivel 2.
+* Sutano se da cuenta que mi nivel es muy bajo para su poder y niega el juego. **(MVP)**
+* Vuelvo al lobby. **(MVP)**
+* Se me propone un match contra Rumano y ambos aceptamos. **(MVP)**
+* Se me presenta el tablero. **(MVP)**
+* // start game loop **(MVP)**
 * Elijo una posición de ataque y confirmo mi ataque.
 * Fallo, pero se marca mi ataque en el mapa.
 * Es el turno de Rumano y destruye una de mis piezas.
