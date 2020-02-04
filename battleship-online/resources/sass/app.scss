@@ -1,1 +1,17 @@
-//
+@import 'variables'
+@import '~bootstrap/dist/bootstrap'
+
+.board {
+    border-radius: $border-radius;
+    background-color: $board-background;
+    .cell {
+        border-radius: $border-radius;
+        height: 3em;
+        width: 3em;
+        background-color: $cell-background;
+        &:hover {
+            background-color: lighten($cell-background, 0.4);
+        }
+    }
+}
+
