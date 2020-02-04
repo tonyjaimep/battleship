@@ -21,6 +21,9 @@ class CreateAttacksTable extends Migration
             $table->unsigned('target_x');
             $table->unsigned('target_y');
             $table->boolean('hit')->nullable();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('target_board_id')->references('id')->on('boards')->onDelete('cascade');
         });
     }
 
