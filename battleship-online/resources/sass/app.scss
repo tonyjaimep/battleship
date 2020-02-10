@@ -5,13 +5,15 @@
     border-radius: $border-radius;
     background-color: $board-background;
     .cell {
-        border-radius: $border-radius;
-        height: 3em;
-        width: 3em;
         background-color: $cell-background;
         &:hover {
             background-color: lighten($cell-background, 0.4);
         }
+        &.attacked {
+            background-color: $cell-background-attacked;
+        }
+        &.hit {
+            background-color: $cell-background-hit;
+        }
     }
 }
-

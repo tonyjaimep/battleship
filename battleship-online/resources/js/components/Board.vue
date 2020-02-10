@@ -1,7 +1,7 @@
 <template>
     <div class="board">
         <div class="row" :class="'row-cols-' + size" v-for="row in size">
-            <div class="cell col" v-for="column in size" :ref="'cell-' + row + '-' + column"></div>
+            <div :class="cellClass(column, row)" class="cell col" v-for="column in size" :ref="'cell-' + row + '-' + column"></div>
         </div>
     </div>
 </template>
@@ -23,6 +23,20 @@ export default {
             type: Array,
             required: false,
             default: []
+        }
+    },
+    methods: {
+        cellClass(x, y) {
+            let attack = _.find(this.attacks, { x: x, y: y})
+            let result = 'cell'
+
+            if (attack) {
+                result += ' attacked'
+                if (attack.hit)
+                    result += ' hit'
+            }
+
+            return result
         }
     }
 }

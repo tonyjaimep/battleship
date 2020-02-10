@@ -1,6 +1,8 @@
 $font-size: 16px;
 
 $board-background: #021118;
-$cell-background: lighten($board-background, 10%);
+$cell-background: lighten($board-background, 15%);
+$cell-background-attacked: darken($cell-background, 15%);
+$cell-background-hit: #E81010;
 
 $border-radius: 1em;
