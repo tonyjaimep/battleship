@@ -15,11 +15,12 @@ class CreateMatchesTable extends Migration
     {
         Schema::create('matches', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->dateTime('created_at');
+            $table->dateTime('created_at')->useCurrent();
             $table->dateTime('finished_at')->nullable();
             $table->unsignedBigInteger('user_a_id');
-            $table->unsignedBigInteger('user_b_id');
+            $table->unsignedBigInteger('user_b_id')->nullable();
             $table->unsignedBigInteger('winner_id')->nullable();
+            $table->string('state')->nullable();
 
             $table->foreign('user_a_id')->references('id')->on('users');
             $table->foreign('user_b_id')->references('id')->on('users');
