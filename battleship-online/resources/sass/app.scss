@@ -6,8 +6,9 @@
     background-color: $board-background;
     .cell {
         background-color: $cell-background;
+        border: dashed 2px $board-background;
         &:hover {
-            background-color: lighten($cell-background, 0.4);
+            background-color: lighten($cell-background, 6%);
         }
         &.attacked {
             background-color: $cell-background-attacked;
