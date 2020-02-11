@@ -18,3 +18,10 @@
         }
     }
 }
+
+.ship {
+    background-color: $ship-background;
+    border-radius: 4px;
+    z-index: 10;
+    position: fixed;
+}

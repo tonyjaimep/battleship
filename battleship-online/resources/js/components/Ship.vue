@@ -1,5 +1,5 @@
 <template>
-    <div :style="{ 'width': width, 'height': height, 'left': x, 'top': y }" class="ship" :class="'ship-' + ship.orientation + '-' + ship.length"></div>
+    <div :style="{ 'width': width, 'height': height, 'left': x, 'top': y }" class="ship" :class="['ship-length-' + length, 'ship-orientation-' + orientation]"></div>
 </template>
 
 <script>
@@ -16,42 +16,37 @@ export default {
         orientation: {
             type: String,
             required: true,
-        }
+        },
         'cell-size': {
             type: Number,
+            required: true
+        },
+        origin: {
+            type: Object,
             required: true
         }
     },
     computed: {
         width() {
             if (this.orientation === 'h') {
-                return this.cellSize * this.length
+                return this.cellSize * this.length + 'px'
             } else {
-                return this.cellSize
+                return this.cellSize + 'px'
             }
         },
         height() {
             if (this.orientation === 'v') {
-                return this.cellSize * this.length
+                return this.cellSize * this.length + 'px'
             } else {
-                return this.cellSize
+                return this.cellSize + 'px'
             }
         },
         x() {
-            return this.cellSize * this.position.x
+            return this.origin.x + this.cellSize * (this.position.x - 1) + 'px'
         },
         y() {
-            return this.cellSize * this.position.y
+            return this.origin.y + this.cellSize * (this.position.y - 1) + 'px'
         }
     }
 }
 </script>
-
-<style lang="css" scoped>
-.ship {
-    background-color: red;
-    position: absolute;
-}
-
-
-</style>
