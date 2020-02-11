@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Piece extends Model
 {
+    public $timestamps = false;
+
     public function hit($x, $y)
     {
         // horizontal

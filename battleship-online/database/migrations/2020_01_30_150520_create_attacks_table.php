@@ -18,8 +18,8 @@ class CreateAttacksTable extends Migration
             $table->dateTime('created_at');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('target_board_id');
-            $table->unsigned('target_x');
-            $table->unsigned('target_y');
+            $table->unsignedInteger('target_x');
+            $table->unsignedInteger('target_y');
             $table->boolean('hit')->nullable();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

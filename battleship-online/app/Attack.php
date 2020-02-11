@@ -7,6 +7,8 @@ use App\Board;
 
 class Attack extends Model
 {
+    public $timestamps = false;
+
     public function targetBoard()
     {
         return $this->belongsTo(Board::class);

@@ -2,17 +2,19 @@
 @import '~bootstrap/scss/bootstrap';
 
 body {
-    background-color: black;
+    background-color: #001;
     font-family: 'Space Mono', monospace;
-    color: white;
+    color: #DDD;
 }
 
 .board {
     border-radius: $border-radius;
+    overflow: hidden;
     background-color: $board-background;
+    box-shadow: 0 0 4em #000;
     .cell {
         background-color: $cell-background;
-        border: dashed 2px $board-background;
+        border: dashed 1px $board-background;
         &:hover {
             background-color: lighten($cell-background, 6%);
         }
@@ -23,13 +25,20 @@ body {
             background-color: $cell-background-hit;
         }
     }
+    &.enemy {
+        .cell:hover {
+            background-color: lighten(adjust-hue($cell-background, 20deg), 10%);
+        }
+    }
 }
 
 .ship {
     background-color: $ship-background;
-    border-radius: 4px;
+    border-radius: $border-radius;
     z-index: 10;
     position: fixed;
+    box-shadow: 0 0 0.5em rgba(0, 0, 0, 0.8);
+    transition-duration: 200ms;
     &.invalid-position {
         opacity: 0.6;
     }

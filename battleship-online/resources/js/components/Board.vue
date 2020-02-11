@@ -1,5 +1,5 @@
 <template>
-    <div class="board" @click.right.prevent="toggleNewShipOrientation">
+    <div class="board" @click.right.prevent="toggleNewShipOrientation" :class="[modality, state]">
         <div class="container" @click="placeNewShip">
             <ship v-for="ship in ships" :origin="boardOrigin" :cell-size="cellHeight" :position="ship.position" :orientation="ship.orientation" :length="ship.length" :key="'ship-' + ship.position.x + '-' + ship.position.y"/>
             <ship v-if="modality == 'own' && state == 'placing'" :origin="boardOrigin" :cell-size="cellHeight" :position="newShip.position" :orientation="newShip.orientation" :length="newShip.length" key="new-ship" :class="{'invalid-position': !isValidNewShipPosition}"/>
@@ -10,7 +10,7 @@
                     v-for="column in size"
                     :ref="'cell-' + row + '-' + column"
                     @mouseenter="moveNewShip(column, row)"
-                    @click="placeNewShip"></div>
+                    @click="onCellClick"></div>
             </div>
         </div>
     </div>
@@ -63,9 +63,32 @@ export default {
         },
         'match-id': {
             type: Number
+        },
+        'id': {
+            type: Number,
+            required: true
         }
     },
     methods: {
+        onCellClick(x, y) {
+            switch (this.state) {
+                case 'placing':
+                    this.placeNewShip()
+                    break
+                case 'my-turn':
+                    if (this.modality == 'enemy')
+                        sendAttack(x, y)
+                    break
+            }
+        },
+        sendAttack(x, y) {
+            let data = new FormData()
+            data.append('x', x)
+            data.append('y', y)
+            axios.put('match/' + this.match_id + '/attack').then((r) => {
+                this.$emit('attackSent', r.data)
+            })
+        },
         cellClass(x, y) {
             let attack = _.find(this.attacks, { x: x, y: y})
             let result = 'cell'
@@ -110,10 +133,17 @@ export default {
 
             let t = this
 
-            //axios.put('match/' + this.matchId + '/ship').then((r) => {
-                t.ships.push(_.cloneDeep(this.newShip))
-                t.$emit('shipPlaced')
-            //})
+            let data = new FormData()
+
+            data.append('x', this.newShip.position.x)
+            data.append('y', this.newShip.position.y)
+            data.append('orientation', this.newShip.orientation)
+            data.append('length', this.newShip.length)
+            data.append('board_id', this.id)
+
+            axios.put('match/' + this.matchId + '/piece', data).then((r) => {
+                t.$emit('shipPlaced', r.data)
+            })
         },
         shipsIntersect(shipA, shipB) {
             if (shipA.orientation === 'h') {
