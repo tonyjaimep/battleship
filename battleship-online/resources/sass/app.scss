@@ -1,6 +1,10 @@
 @import 'variables';
 @import '~bootstrap/scss/bootstrap';
 
+body {
+    background-color: black;
+}
+
 .board {
     border-radius: $border-radius;
     background-color: $board-background;
@@ -24,4 +28,7 @@
     border-radius: 4px;
     z-index: 10;
     position: fixed;
+    &.invalid-position {
+        opacity: 0.6;
+    }
 }

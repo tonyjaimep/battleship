@@ -2,7 +2,7 @@
     <div class="board" @click.right.prevent="toggleNewShipOrientation">
         <div class="container" @click="placeNewShip">
             <ship v-for="ship in ships" :origin="boardOrigin" :cell-size="cellHeight" :position="ship.position" :orientation="ship.orientation" :length="ship.length" :key="'ship-' + ship.position.x + '-' + ship.position.y"/>
-            <ship v-if="state == 'placing'" :origin="boardOrigin" :cell-size="cellHeight" :position="newShip.position" :orientation="newShip.orientation" :length="newShip.length" key="new-ship"/>
+            <ship v-if="modality == 'own' && state == 'placing'" :origin="boardOrigin" :cell-size="cellHeight" :position="newShip.position" :orientation="newShip.orientation" :length="newShip.length" key="new-ship" :class="{'invalid-position': !isValidNewShipPosition}"/>
             <div class="row" :class="'row-cols-' + size" v-for="row in size">
                 <div :style="{ 'height': cellHeight + 'px' }"
                     :class="cellClass(column, row)"
@@ -32,7 +32,7 @@ export default {
                 },
                 orientation: 'h',
                 length: 3
-            }
+            },
         }
     },
     components: { Ship },
@@ -56,6 +56,10 @@ export default {
         state: {
             type: String,
             required: true
+        },
+        'available-ships': {
+            type: Array,
+            required: false
         }
     },
     methods: {
@@ -91,20 +95,50 @@ export default {
             if (this.state != 'placing')
                 return
 
-            if (this.newShip.orientation == 'h'
-                && x - 1 + this.newShip.length > this.size)
-                return
-
-            if (this.newShip.orientation == 'v'
-                && y - 1 + this.newShip.length > this.size)
-                return
-
             this.newShip.position.x = x
             this.newShip.position.y = y
         },
         placeNewShip() {
-            console.log("Placing new ship")
-            this.ships.push(_.cloneDeep(this.newShip))
+            if (!this.isValidNewShipPosition)
+                return
+
+            let t = this
+
+            axios.post('match/' + this.match_id + '/ship').then((r) => {
+                this.ships.push(r.data)
+                this.availableShips.pop()
+            })
+        },
+        shipsIntersect(shipA, shipB) {
+            if (shipA.orientation === 'h') {
+                if (shipB.orientation === 'h')
+                    return shipA.position.y == shipB.position.y && shipA.position.x >= shipB.position.x && shipA.position.x < shipB.position.x + shipB.length
+                if (shipB.orientation === 'v')
+                    return shipA.position.y >= shipB.position.y && shipA.position.y < shipB.position.y + shipB.length && shipA.position.x + shipA.length - 1 >= shipB.position.x && shipA.position.x <= shipB.position.x
+            }
+
+            if (shipA.orientation === 'v') {
+                if (shipB.orientation === 'v')
+                    return shipA.position.x == shipB.position.x && shipA.position.y >= shipB.position.y && shipA.position.y < shipB.position.y + shipB.length
+                if (shipB.orientation === 'h')
+                    return shipA.position.x >= shipB.position.x && shipA.position.x < shipB.position.x + shipB.length && shipA.position.y + shipA.length - 1 >= shipB.position.y && shipA.position.y <= shipB.position.y
+            }
+        }
+    },
+    computed: {
+        isValidNewShipPosition() {
+            if (this.newShip.orientation == 'h'
+                && this.newShip.position.x - 1 + this.newShip.length > this.size)
+                return false
+
+            if (this.newShip.orientation == 'v'
+                && this.newShip.position.y - 1 + this.newShip.length > this.size)
+                return false
+
+            if (this.ships.some(ship => this.shipsIntersect(ship, this.newShip)))
+                return false
+
+            return true
         }
     },
     mounted() {

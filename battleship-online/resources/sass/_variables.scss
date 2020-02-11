@@ -1,7 +1,7 @@
 $font-size: 16px;
 
 $board-background: #021118;
-$ship-background: #EE0410;
+$ship-background: #9E0420;
 $cell-background: lighten($board-background, 15%);
 $cell-background-attacked: darken($cell-background, 15%);
 $cell-background-hit: #E81010;
