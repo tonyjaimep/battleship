@@ -2,5 +2,5 @@
 @section('title', "Match")
 
 @section('app')
-    <match></match>
+    <match :match-id="4"/>
 @endsection

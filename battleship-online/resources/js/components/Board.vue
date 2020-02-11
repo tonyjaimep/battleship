@@ -60,6 +60,9 @@ export default {
         'available-ships': {
             type: Array,
             required: false
+        },
+        'match-id': {
+            type: Number
         }
     },
     methods: {
@@ -99,15 +102,18 @@ export default {
             this.newShip.position.y = y
         },
         placeNewShip() {
+            if (this.state != 'placing')
+                return
+
             if (!this.isValidNewShipPosition)
                 return
 
             let t = this
 
-            axios.post('match/' + this.match_id + '/ship').then((r) => {
-                this.ships.push(r.data)
-                this.availableShips.pop()
-            })
+            //axios.put('match/' + this.matchId + '/ship').then((r) => {
+                t.ships.push(_.cloneDeep(this.newShip))
+                t.$emit('shipPlaced')
+            //})
         },
         shipsIntersect(shipA, shipB) {
             if (shipA.orientation === 'h') {
@@ -141,7 +147,15 @@ export default {
             return true
         }
     },
+    watch: {
+        availableShips() {
+            if (this.availableShips.length)
+                Object.assign(this.newShip, this.availableShips[0])
+        }
+    },
     mounted() {
+        if (this.availableShips)
+            Object.assign(this.newShip, this.availableShips[0])
         this.onResize()
         window.addEventListener('resize', this.onResize)
     },
