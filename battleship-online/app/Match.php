@@ -7,6 +7,8 @@ use App\User;
 
 class Match extends Model
 {
+    public $timestamps = false;
+
     public function userA()
     {
         return $this->belongsTo(User::class);
@@ -24,5 +26,10 @@ class Match extends Model
 
     public function create()
     {
+    }
+
+    public function scopeAvailable($query)
+    {
+        return $query->whereNull('user_b_id');
     }
 }
