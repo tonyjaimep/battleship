@@ -31,11 +31,13 @@ class Match extends Model
 
     public function setUserBIdAttribute($value)
     {
-        $board = Board::where('match_id', $this->attributes['id'])->whereNull('user_id')->get();
-        dd($board);
+        $board = Board::where('match_id', $this->attributes['id'])->whereNull('user_id')->first();
         $board->user_id = $value;
         $board->save();
 
         $this->attributes['user_b_id'] = $value;
+
+        if ($this->attributes['state'] === 'waiting-opponent')
+            $this->attributes['state'] = 'placing';
     }
 }
