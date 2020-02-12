@@ -100,7 +100,7 @@ export default {
             axios.get('/match/' + t.matchId + '/state').then((response) => {
                 t.state = response.data
             })
-        }, 1000)
+        }, 2000)
     }
 }
 </script>
