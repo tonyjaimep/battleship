@@ -8,6 +8,8 @@ use App\Piece;
 
 class Board extends Model
 {
+    public $timestamps = false;
+
     public function isHit($x, $y)
     {
         foreach ($this->pieces as $piece)
