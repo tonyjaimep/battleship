@@ -35,6 +35,6 @@ class MatchStateUpdated implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('match.' . $this->match->id);
+        return new Channel('match.' . $this->match->id);
     }
 }
