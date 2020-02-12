@@ -81,7 +81,7 @@ export default {
                 case 'enemy-turn':
                     return "Turno de su enemigo"
                     break
-                case 'stand-by':
+                default:
                     return "Espere"
                     break
             }
@@ -95,12 +95,9 @@ export default {
     },
     mounted() {
         let t = this
-
-        setInterval(() => {
-            axios.get('/match/' + t.matchId + '/state').then((response) => {
-                t.state = response.data
-            })
-        }, 2000)
+        Echo.channel('match.' + this.matchId).listen('MatchStateUpdated', (e) => {
+            t.state = e.match.state
+        })
     }
 }
 </script>
