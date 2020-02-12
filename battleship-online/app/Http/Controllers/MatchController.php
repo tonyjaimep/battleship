@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Match;
+use App\Board;
 
 class MatchController extends Controller
 {
@@ -21,7 +22,15 @@ class MatchController extends Controller
                 $request->session()->put('match_id', $match->id);
             }
         }
-        return view('match', ['match_id' => $request->session()->get('match_id')]);
+
+        $matchId = $request->session()->get('match_id');
+        return view('match', [
+            'match_id' => $matchId,
+            // TODO: obtener de la sesión
+            'own_board' => Board::where('match_id', $matchId)->where('user_id', 1)->first(),
+            // TODO: obtener de la sesión
+            'enemy_board' => Board::where('match_id', $matchId)->where('user_id', 1)->first(),
+        ]);
     }
 
     public function getState($matchId)
@@ -35,16 +44,25 @@ class MatchController extends Controller
 
         if ($availableMatches->count()) {
             $match = $availableMatches->first();
-            // TODO: obtener esto de la sesión
             $match->user_b_id = $userId; // dummy
+            $match->save();
         } else {
             $match = new Match();
-            // TODO: obtener esto de la sesión
             $match->state = 'waiting-opponent';
-            $match->user_a_id = $userId; // este wey es dummy
-        }
+            $match->user_a_id = $userId;
+            $match->save();
 
-        $match->save();
+            // board setup
+            // board A
+            $boardA = new Board();
+            $boardA->user_id = $userId;
+            $boardA->match_id = $match->id;
+            $boardA->save();
+            // board B
+            $boardB = new Board();
+            $boardB->match_id = $match->id;
+            $boardB->save();
+        }
 
         return $match;
     }

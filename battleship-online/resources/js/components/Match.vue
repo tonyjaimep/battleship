@@ -4,11 +4,11 @@
         <div class="row text-center">
             <div class="offset-1 col-5">
                 <h2>Su tablero</h2>
-                <board :id="34" @shipPlaced="availableShips.splice(0, 1)" :match-id="matchId" :attacks="attacks.received" :size="board.size" modality="own" class="own" :state="state" :available-ships="availableShips"></board>
+                <board :id="ownBoard.id" @shipPlaced="availableShips.splice(0, 1)" :match-id="matchId" :attacks="attacks.received" :size="board.size" modality="own" class="own" :state="state" :available-ships="availableShips"></board>
             </div>
             <div class="col-5">
                 <h2>Su adversario</h2>
-                <board :id="12" :match-id="matchId" :attacks="attacks.sent" :size="board.size" modality="enemy" class="enemy" :state="state"></board>
+                <board :id="enemyBoard.id" :match-id="matchId" :attacks="attacks.sent" :size="board.size" modality="enemy" class="enemy" :state="state"></board>
             </div>
         </div>
         <p class="instructions text-center mt-3">
@@ -31,7 +31,7 @@ import Board from './Board'
 
 export default {
     components: { Board },
-    props: ['match-id'],
+    props: ['match-id', 'own-board', 'enemy-board'],
     data() {
         return {
             state: '',

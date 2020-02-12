@@ -31,7 +31,8 @@ class Match extends Model
 
     public function setUserBIdAttribute($value)
     {
-        $board = Board::where('match_id', $this->id)->whereNull('user_id');
+        $board = Board::where('match_id', $this->attributes['id'])->whereNull('user_id')->get();
+        dd($board);
         $board->user_id = $value;
         $board->save();
 
