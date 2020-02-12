@@ -42,7 +42,7 @@ export default {
             availableShips: [
                 {
                     position: { x: 0, y: 0 },
-                    length: 5,
+                    length: 4,
                     orientation: 'v'
                 },
                 {
@@ -72,22 +72,16 @@ export default {
                 case 'placing':
                     return "Colocando fichas"
                     break
-                case 'my-turn':
-                    return "Su turno"
+                case 'attacking':
+                    return "Ataque"
                     break
-                case 'enemy-turn':
-                    return "Turno de su enemigo"
+                case 'attacking-stand-by':
+                    return "Esperando ataque"
                     break
                 default:
                     return "Espere"
                     break
             }
-        }
-    },
-    watch: {
-        availableShips() {
-            if (this.availableShips.length == 0)
-                this.state = 'stand-by'
         }
     },
     mounted() {
