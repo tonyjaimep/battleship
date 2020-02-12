@@ -24,17 +24,12 @@ class Match extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function create()
+    {
+    }
+
     public function scopeAvailable($query)
     {
         return $query->whereNull('user_b_id');
-    }
-
-    public function setUserBIdAttribute($value)
-    {
-        $board = Board::where('match_id', $this->id);
-        $board->user_id = $value;
-        $board->save();
-
-        $this->attributes['user_b_id'] = $value;
     }
 }
