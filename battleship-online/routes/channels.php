@@ -11,6 +11,7 @@
 |
 */
 
-Broadcast::channel('App.User.{id}', function ($user, $id) {
-    return (int) $user->id === (int) $id;
+Broadcast::channel('match.{match_id}', function ($user, $matchId) {
+    $match = Match::findOrFail($matchId);
+    return $user->id === $match->user_a_id || $user->id === $match->user_b_id;
 });
