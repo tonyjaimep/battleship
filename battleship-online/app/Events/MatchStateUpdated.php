@@ -12,7 +12,7 @@ use Illuminate\Queue\SerializesModels;
 
 use App\Match;
 
-class MatchStatusUpdated implements ShouldBroadcast
+class MatchStateUpdated implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
