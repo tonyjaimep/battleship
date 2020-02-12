@@ -95,6 +95,10 @@ export default {
     },
     mounted() {
         let t = this
+        axios.get('match/' + this.matchId + '/state').then((r) => {
+            t.state = r.data
+        })
+
         Echo.channel('match.' + this.matchId).listen('MatchStateUpdated', (e) => {
             t.state = e.match.state
         })
