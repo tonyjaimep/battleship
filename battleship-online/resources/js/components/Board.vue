@@ -141,7 +141,7 @@ export default {
             data.append('length', this.newShip.length)
             data.append('board_id', this.id)
 
-            axios.put('match/' + this.matchId + '/piece', data).then((r) => {
+            axios.post('match/' + this.matchId + '/piece', data).then((r) => {
                 t.$emit('shipPlaced', r.data)
             })
         },
