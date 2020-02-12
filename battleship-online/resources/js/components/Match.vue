@@ -34,7 +34,7 @@ export default {
     props: ['match-id'],
     data() {
         return {
-            state: 'placing',
+            state: '',
             attacks: {
                 sent: [],
                 received: [],
@@ -45,7 +45,7 @@ export default {
             availableShips: [
                 {
                     position: { x: 0, y: 0 },
-                    length: 2,
+                    length: 5,
                     orientation: 'v'
                 },
                 {
@@ -69,6 +69,9 @@ export default {
     computed: {
         stateText() {
             switch (this.state) {
+                case 'waiting-opponent':
+                    return "Esperando un adversario"
+                    break
                 case 'placing':
                     return "Colocando fichas"
                     break
@@ -89,6 +92,15 @@ export default {
             if (this.availableShips.length == 0)
                 this.state = 'stand-by'
         }
+    },
+    mounted() {
+        let t = this
+
+        setInterval(() => {
+            axios.get('/match/' + t.matchId + '/state').then((response) => {
+                t.state = response.data
+            })
+        }, 1000)
     }
 }
 </script>
