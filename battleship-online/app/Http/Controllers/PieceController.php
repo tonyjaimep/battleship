@@ -15,7 +15,7 @@ class PieceController extends Controller
         $ship->x = $request->x;
         $ship->y = $request->y;
         $ship->orientation = $request->orientation;
-        $ship->type = 'x';
+        $ship->length = $request->length;
 
         $ship->save();
 

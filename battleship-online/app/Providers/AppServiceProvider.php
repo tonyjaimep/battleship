@@ -7,6 +7,9 @@ use Illuminate\Support\ServiceProvider;
 use App\Match;
 use App\Observers\MatchObserver;
 
+use App\Piece;
+use App\Observers\PieceObserver;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -27,5 +30,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Match::observe(MatchObserver::class);
+        Piece::observe(PieceObserver::class);
     }
 }

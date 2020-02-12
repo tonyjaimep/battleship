@@ -30,8 +30,8 @@ export default {
                     x: 0,
                     y: 0,
                 },
-                orientation: 'h',
-                length: 3
+                orientation: '',
+                length: 0
             },
         }
     },
@@ -77,7 +77,7 @@ export default {
                     break
                 case 'my-turn':
                     if (this.modality == 'enemy')
-                        sendAttack(x, y)
+                        this.sendAttack(x, y)
                     break
             }
         },
@@ -141,8 +141,9 @@ export default {
             data.append('length', this.newShip.length)
             data.append('board_id', this.id)
 
-            axios.post('match/' + this.matchId + '/piece', data).then((r) => {
+            axios.post('board/' + this.id + '/piece', data).then((r) => {
                 t.$emit('shipPlaced', r.data)
+                t.ships.push(r.data)
             })
         },
         shipsIntersect(shipA, shipB) {
@@ -189,5 +190,14 @@ export default {
         this.onResize()
         window.addEventListener('resize', this.onResize)
     },
+    created() {
+        let t = this
+        // fetch ships if board is own
+        if (this.modality == 'own') {
+            axios.get('/board/' + this.id + '/pieces').then((r) => {
+                t.ships = r.data
+            })
+        }
+    }
 }
 </script>

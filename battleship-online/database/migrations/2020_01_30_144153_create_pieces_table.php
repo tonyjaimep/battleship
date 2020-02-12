@@ -15,11 +15,11 @@ class CreatePiecesTable extends Migration
     {
         Schema::create('pieces', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->char('type', 1);
             $table->char('orientation', 1);
             $table->unsignedInteger('x');
             $table->unsignedInteger('y');
             $table->unsignedBigInteger('board_id');
+            $table->smallInteger('length');
 
             $table->foreign('board_id')->references('id')->on('boards')->onDelete('cascade');
         });

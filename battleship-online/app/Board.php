@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 use App\Piece;
+use App\Match;
 
 class Board extends Model
 {
@@ -22,5 +23,10 @@ class Board extends Model
     public function pieces()
     {
         return $this->hasMany(Piece::class);
+    }
+
+    public function match()
+    {
+        return $this->belongsTo(Match::class);
     }
 }

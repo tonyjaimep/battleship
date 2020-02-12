@@ -1,12 +1,22 @@
 <?php
-
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+use App\Board;
+
 class Piece extends Model
 {
     public $timestamps = false;
+
+    protected $appends = ['position'];
+    protected $hidden = ['x', 'y'];
+
+    protected $casts = [
+        'length' => 'integer',
+        'x' => 'integer',
+        'y' => 'integer',
+    ];
 
     public function hit($x, $y)
     {
@@ -26,5 +36,15 @@ class Piece extends Model
             return true;
         }
         return false;
+    }
+
+    public function getPositionAttribute()
+    {
+        return ['x' => $this->x, 'y' => $this->y];
+    }
+
+    public function board()
+    {
+        return $this->belongsTo(Board::class);
     }
 }
