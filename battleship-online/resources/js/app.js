@@ -7,4 +7,8 @@ import LoginForm from './components/LoginForm'
 const app = new Vue({
     el: "#app",
     components: { Match, LoginForm },
+    created() {
+        // For extra security
+        console.log("Puto el que hackeé")
+    }
 });
