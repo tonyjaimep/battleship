@@ -4,7 +4,7 @@
         <div class="row text-center">
             <div class="offset-1 col-5">
                 <h2>Su tablero</h2>
-                <board :id="ownBoard.id" @shipPlaced="availableShips.splice(0, 1)" :match-id="matchId" :attacks="attacks.received" :size="ownBoard.size" modality="own" class="own" :state="state" :available-ships="availableShips"></board>
+                <board :id="ownBoard.id" @shipPlaced="availableShips.shift()" :match-id="matchId" :attacks="attacks.received" :size="ownBoard.size" modality="own" class="own" :state="state" :available-ships="availableShips"></board>
             </div>
             <div class="col-5">
                 <h2>Su adversario</h2>
@@ -16,11 +16,17 @@
                 <b>Clic</b>: colocar pieza<br>
                 <b>Clic derecho</b>: rotar pieza
             </template>
-            <template v-else-if="state == 'my-turn'">
+            <template v-else-if="state == 'attacking'">
                 <b>Clic</b>: mandar ataque
             </template>
-            <template v-else>
+            <template v-else-if="state == 'attacking-stand-by'">
+                Esperando el ataque de su adversario
+            </template>
+            <template v-else-if="state == 'waiting-opponent'">
                 Espere a su adversario
+            </template>
+            <template v-else>
+                Espere
             </template>
         </p>
     </div>
