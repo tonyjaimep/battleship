@@ -10,6 +10,9 @@ use App\Observers\MatchObserver;
 use App\Piece;
 use App\Observers\PieceObserver;
 
+use App\Attack;
+use App\Observers\AttackObserver;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -29,6 +32,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Attack::observe(AttackObserver::class);
         Match::observe(MatchObserver::class);
         Piece::observe(PieceObserver::class);
     }
