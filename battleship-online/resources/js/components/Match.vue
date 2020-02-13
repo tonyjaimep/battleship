@@ -98,7 +98,12 @@ export default {
 
         Echo.channel('match.' + this.matchId).listen('MatchStateUpdated', (e) => {
             t.state = e.match.state
-        })
+        }).listen('AttackSent', (e) => {
+            if (e.attack.target_board_id == t.ownBoard.id)
+                t.attacks.received.push(e.attack)
+            else
+                t.attacks.sent.push(e.attack)
+        });
     }
 }
 </script>
