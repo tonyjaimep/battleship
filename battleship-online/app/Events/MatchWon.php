@@ -26,8 +26,10 @@ class MatchWon implements ShouldBroadcast
     public function __construct(Match $match)
     {
         $this->match = $match;
-        $this->match->boardA->destroy();
-        $this->match->boardB->destroy();
+        $match->state = 'finished';
+        $match->save();
+        $match->boardA->destroy();
+        $match->boardB->destroy();
     }
 
     /**
