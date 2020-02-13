@@ -10,7 +10,7 @@
                     v-for="column in size"
                     :ref="'cell-' + row + '-' + column"
                     @mouseenter="moveNewShip(column, row)"
-                    @click="onCellClick"></div>
+                    @click="onCellClick(column, row)"></div>
             </div>
         </div>
     </div>
@@ -25,6 +25,7 @@ export default {
             cellHeight: 10,
             boardOrigin: { x: 0, y: 0 },
             ships: [],
+            attacks: [],
             newShip: {
                 position: {
                     x: 0,
@@ -41,13 +42,6 @@ export default {
             type: Number,
             required: false,
             default: 10
-        },
-        attacks: {
-            type: Array,
-            required: true,
-            default() {
-                return []
-            }
         },
         modality: {
             type: String,
@@ -75,22 +69,26 @@ export default {
                 case 'placing':
                     this.placeNewShip()
                     break
-                case 'my-turn':
+                case 'attacking':
                     if (this.modality == 'enemy')
                         this.sendAttack(x, y)
                     break
             }
         },
         sendAttack(x, y) {
+            if (this.modality != 'enemy' && this.state != 'attacking')
+                return
+
             let data = new FormData()
+
             data.append('x', x)
             data.append('y', y)
-            axios.put('match/' + this.match_id + '/attack').then((r) => {
-                this.$emit('attackSent', r.data)
-            })
+            data.append('target_board_id', this.id)
+
+            axios.post('board/' + this.id + '/attack', data);
         },
         cellClass(x, y) {
-            let attack = _.find(this.attacks, { x: x, y: y})
+            let attack = _.find(this.attacks, { target_x: x, target_y: y})
             let result = 'cell'
 
             if (attack) {
@@ -110,7 +108,7 @@ export default {
             }
         },
         toggleNewShipOrientation() {
-            if (this.state != 'placing')
+            if (this.state != 'placing' || this.modality != 'own')
                 return
             if ('h' == this.newShip.orientation)
                 this.newShip.orientation = 'v'
@@ -118,7 +116,7 @@ export default {
                 this.newShip.orientation = 'h'
         },
         moveNewShip(x, y) {
-            if (this.state != 'placing')
+            if (this.state != 'placing' || this.modality != 'own')
                 return
 
             this.newShip.position.x = x
@@ -198,6 +196,17 @@ export default {
                 t.ships = r.data
             })
         }
+
+        axios.get('/board/' + this.id + '/attacks').then((r) => {
+            t.attacks = r.data
+        })
+
+        Echo.channel('board.' + this.id).listen('AttackSent', (e) => {
+            t.attacks.push(e.attack)
+        }).listen('PieceDestroyed', (e) => {
+            let idx = _.findIndex(t.ships, {id: e.piece.id})
+            t.ships.splice(idx)
+        });
     }
 }
 </script>

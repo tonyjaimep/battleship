@@ -14,22 +14,22 @@ class Attack extends Model
         return $this->belongsTo(Board::class);
     }
 
-    public function setXAttribute($value)
+    public function setTargetXAttribute($value)
     {
-        $this->attributes['x'] = $value;
-        if (isset($this->y))
+        $this->attributes['target_x'] = $value;
+        if (array_key_exists('target_y', $this->attributes))
             $this->calculateIsHit();
     }
 
-    public function setYAttribute($value)
+    public function setTargetYAttribute($value)
     {
-        $this->attributes['y'] = $value;
-        if (isset($this->x))
+        $this->attributes['target_y'] = $value;
+        if (array_key_exists('target_x', $this->attributes))
             $this->calculateIsHit();
     }
 
     private function calculateIsHit()
     {
-        return $this->attributes['hit'] = $this->targetBoard->isHit($this->x, $this->y);
+        return $this->attributes['hit'] = $this->targetBoard->isHit($this);
     }
 }

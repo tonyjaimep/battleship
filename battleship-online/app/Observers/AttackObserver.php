@@ -4,6 +4,8 @@ namespace App\Observers;
 
 use App\Attack;
 
+use App\Events\AttackSent;
+
 class AttackObserver
 {
     /**

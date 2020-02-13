@@ -4,11 +4,11 @@
         <div class="row text-center">
             <div class="offset-1 col-5">
                 <h2>Su tablero</h2>
-                <board :id="ownBoard.id" @shipPlaced="availableShips.shift()" :match-id="matchId" :attacks="attacks.received" :size="ownBoard.size" modality="own" class="own" :state="state" :available-ships="availableShips"></board>
+                <board :id="ownBoard.id" @shipPlaced="availableShips.shift()" :match-id="matchId" :size="ownBoard.size" modality="own" class="own" :state="state" :available-ships="availableShips"></board>
             </div>
             <div class="col-5">
                 <h2>Su adversario</h2>
-                <board :id="enemyBoard.id" :match-id="matchId" :attacks="attacks.sent" :size="enemyBoard.size" modality="enemy" class="enemy" :state="state"></board>
+                <board :id="enemyBoard.id" :match-id="matchId" :size="enemyBoard.size" modality="enemy" class="enemy" :state="state"></board>
             </div>
         </div>
         <p class="instructions text-center mt-3">
@@ -41,10 +41,6 @@ export default {
     data() {
         return {
             state: '',
-            attacks: {
-                sent: [],
-                received: [],
-            },
             availableShips: [
                 {
                     position: { x: 0, y: 0 },
@@ -81,9 +77,6 @@ export default {
                 case 'attacking':
                     return "Ataque"
                     break
-                case 'attacking-stand-by':
-                    return "Esperando ataque"
-                    break
                 default:
                     return "Espere"
                     break
@@ -98,12 +91,7 @@ export default {
 
         Echo.channel('match.' + this.matchId).listen('MatchStateUpdated', (e) => {
             t.state = e.match.state
-        }).listen('AttackSent', (e) => {
-            if (e.attack.target_board_id == t.ownBoard.id)
-                t.attacks.received.push(e.attack)
-            else
-                t.attacks.sent.push(e.attack)
-        });
+        })
     }
 }
 </script>

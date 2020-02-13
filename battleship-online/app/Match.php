@@ -33,6 +33,8 @@ class Match extends Model
 
     public function getBoardBAttribute()
     {
-        return Board::where('match_id', $this->attributes['id'])->where('user_id', $this->attributes['user_b_id'])->first();
+        if (array_key_exists('user_b_id', $this->attributes))
+            return Board::where('match_id', $this->attributes['id'])->where('user_id', $this->attributes['user_b_id'])->first();
+        return Board::where('match_id', $this->attributes['id'])->whereNull('user_id')->first();
     }
 }

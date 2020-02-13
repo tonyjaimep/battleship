@@ -10,22 +10,22 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-use App\Attack;
+use App\Piece;
 
-class AttackSent implements ShouldBroadcast
+class PieceDestroyed implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $attack;
+    public $piece;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Attack $attack)
+    public function __construct(Piece $piece)
     {
-        $this->attack = $attack;
+        $this->piece = $piece;
     }
 
     /**
@@ -35,6 +35,6 @@ class AttackSent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('board.' . $this->attack->target_board_id);
+        return new Channel('match.' . $piece->board->match->id);
     }
 }

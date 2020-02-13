@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 use App\Piece;
 use App\Match;
+use App\Attack;
 
 class Board extends Model
 {
@@ -13,11 +14,14 @@ class Board extends Model
 
     protected $hidden = ['user_id'];
 
-    public function isHit($x, $y)
+    public function isHit(Attack $attack)
     {
-        foreach ($this->pieces as $piece)
-            if ($piece->hit($x, $y))
+        foreach ($this->pieces as $piece) {
+            if ($piece->hit($attack->target_x, $attack->target_y)) {
+                $attack->hit_piece_id = $piece->id;
                 return true;
+            }
+        }
 
         return false;
     }
@@ -30,5 +34,10 @@ class Board extends Model
     public function match()
     {
         return $this->belongsTo(Match::class);
+    }
+
+    public function attacks()
+    {
+        return $this->hasMany(Attack::class, 'target_board_id');
     }
 }

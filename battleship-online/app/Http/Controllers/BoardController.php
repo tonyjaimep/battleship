@@ -12,4 +12,9 @@ class BoardController extends Controller
     {
         return Board::findOrFail($board_id)->pieces;
     }
+
+    public function getAttacks(Request $request, $target_board_id)
+    {
+        return Board::findOrFail($target_board_id)->attacks;
+    }
 }
