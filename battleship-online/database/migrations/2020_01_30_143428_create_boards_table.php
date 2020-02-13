@@ -16,11 +16,11 @@ class CreateBoardsTable extends Migration
         Schema::create('boards', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('match_id');
-            $table->unsignedBigInteger('user_id')->nullable();
+            $table->string('user_id')->nullable();
             $table->unsignedInteger('size')->default(10);
 
             $table->foreign('match_id')->references('id')->on('matches')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('sessions')->onDelete('cascade');
         });
     }
 
