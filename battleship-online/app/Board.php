@@ -11,6 +11,8 @@ class Board extends Model
 {
     public $timestamps = false;
 
+    protected $hidden = ['user_id'];
+
     public function isHit($x, $y)
     {
         foreach ($this->pieces as $piece)
