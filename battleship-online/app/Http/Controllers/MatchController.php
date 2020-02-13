@@ -23,10 +23,19 @@ class MatchController extends Controller
             }
         }
 
+
+        if ($match->boardA->user_id == $sessionId) {
+            $ownBoard = $match->boardA;
+            $enemyBoard = $match->boardB;
+        } else {
+            $ownBoard = $match->boardB;
+            $enemyBoard = $match->boardA;
+        }
+
         return view('match', [
             'match_id' => $match->id,
-            'own_board' => Board::where('match_id', $match->id)->where('user_id', $match->user_a_id)->first(),
-            'enemy_board' => Board::where('match_id', $match->id)->where('user_id', $match->user_b_id)->first(),
+            'own_board' => $ownBoard,
+            'enemy_board' => $enemyBoard
         ]);
     }
 

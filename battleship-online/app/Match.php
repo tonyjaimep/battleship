@@ -25,4 +25,14 @@ class Match extends Model
         if ($this->attributes['state'] === 'waiting-opponent')
             $this->attributes['state'] = 'placing';
     }
+
+    public function getBoardAAttribute()
+    {
+        return Board::where('match_id', $this->attributes['id'])->where('user_id', $this->attributes['user_a_id'])->first();
+    }
+
+    public function getBoardBAttribute()
+    {
+        return Board::where('match_id', $this->attributes['id'])->where('user_id', $this->attributes['user_b_id'])->first();
+    }
 }

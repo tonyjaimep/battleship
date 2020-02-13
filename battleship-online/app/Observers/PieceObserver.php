@@ -11,12 +11,14 @@ class PieceObserver
     public function created(Piece $piece)
     {
         $match = $piece->board->match;
-        $boardA = Board::where('match_id', $match->id)->where('user_id', $match->user_a_id)->first();
-        $boardB = Board::where('match_id', $match->id)->where('user_id', $match->user_b_id)->first();
+
+        $boardA = $match->boardA;
+        $boardB = $match->boardB;
+
 
         // all pieces have been placed
-        if (count($boardA->pieces) >= 4 && count($boardB->pieces) >= 4) {
-            if ($match->state = "attacking")
+        if ($boardA->pieces->count() >= 5 && $boardB->pieces->count() >= 5) {
+            $match->state = "attacking";
             $match->save();
         }
     }
