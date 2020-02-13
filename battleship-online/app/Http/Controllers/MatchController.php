@@ -11,25 +11,22 @@ class MatchController extends Controller
 {
     public function showMatch(Request $request)
     {
+        $sessionId = $request->session()->getId();
+
         if (!$request->session()->has('match_id')) {
-            // TODO: obtener de la sesión
-            $match = $this->assignMatch(1);
+            $match = $this->assignMatch($sessionId);
             $request->session()->put('match_id', $match->id);
         } else {
-            if (!Match::find($request->session()->get('match_id'))) {
-                // TODO: obtener de la sesión
-                $match = $this->assignMatch(1);
+            if (!($match = Match::find($request->session()->get('match_id')))) {
+                $match = $this->assignMatch($sessionId);
                 $request->session()->put('match_id', $match->id);
             }
         }
 
-        $matchId = $request->session()->get('match_id');
         return view('match', [
-            'match_id' => $matchId,
-            // TODO: obtener de la sesión
-            'own_board' => Board::where('match_id', $matchId)->where('user_id', 1)->first(),
-            // TODO: obtener de la sesión
-            'enemy_board' => Board::where('match_id', $matchId)->where('user_id', 1)->first(),
+            'match_id' => $match->id,
+            'own_board' => Board::where('match_id', $match->id)->where('user_id', $match->user_a_id)->first(),
+            'enemy_board' => Board::where('match_id', $match->id)->where('user_id', $match->user_b_id)->first(),
         ]);
     }
 

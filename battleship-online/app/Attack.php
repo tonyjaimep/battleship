@@ -14,16 +14,6 @@ class Attack extends Model
         return $this->belongsTo(Board::class);
     }
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    public function targetUser()
-    {
-        return $this->targetBoard->user;
-    }
-
     public function setXAttribute($value)
     {
         $this->attributes['x'] = $value;

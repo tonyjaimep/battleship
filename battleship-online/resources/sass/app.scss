@@ -8,7 +8,7 @@ body {
 }
 
 .board {
-    border-radius: $border-radius;
+    border-radius: $board-border-radius;
     overflow: hidden;
     background-color: $board-background;
     box-shadow: 0 0 4em #000;
@@ -34,7 +34,7 @@ body {
 
 .ship {
     background-color: $ship-background;
-    border-radius: $border-radius;
+    border-radius: $board-border-radius;
     z-index: 10;
     position: fixed;
     box-shadow: 0 0 0.5em rgba(0, 0, 0, 0.8);
@@ -42,4 +42,8 @@ body {
     &.invalid-position {
         opacity: 0.6;
     }
+}
+
+.login-container {
+    margin-top: 30vh;
 }

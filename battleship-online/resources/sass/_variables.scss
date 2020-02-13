@@ -1,9 +1,12 @@
 $font-size: 16px;
 
 $board-background: #445;
-$ship-background: #E02330;
+$ship-background: crimson;
 $cell-background: lighten($board-background, 25%);
 $cell-background-attacked: darken($cell-background, 15%);
 $cell-background-hit: #E81010;
 
-$border-radius: 10px;
+$board-border-radius: 10px;
+$border-radius: 0;
+
+$primary: $ship-background;

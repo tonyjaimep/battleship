@@ -3,26 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use App\User;
 
 class Match extends Model
 {
     public $timestamps = false;
-
-    public function userA()
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    public function userB()
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    public function winner()
-    {
-        return $this->belongsTo(User::class);
-    }
+    protected $hidden = ['user_a_id', 'user_b_id'];
 
     public function scopeAvailable($query)
     {
