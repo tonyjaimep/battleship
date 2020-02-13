@@ -26,6 +26,17 @@ class PieceDestroyed implements ShouldBroadcast
     public function __construct(Piece $piece)
     {
         $this->piece = $piece;
+        $board = $this->piece->board;
+        $match = $board->match;
+
+        // set winner
+        if ($board->pieces->count() == 0) {
+            if ($board->id == $match->board_a_id)
+                $match->winner_id = $match->boardB->user_id;
+            else
+                $match->winner_id = $match->boardA->user_id;
+            $match->save();
+        }
     }
 
     /**
