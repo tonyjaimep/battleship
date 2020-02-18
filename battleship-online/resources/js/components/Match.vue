@@ -103,6 +103,10 @@ export default {
             t.state = r.data
         })
 
+        axios.get('match/' + this.matchId + '/winner').then((r) => {
+            t.winnerId = r.data
+        })
+
         Echo.channel('match.' + this.matchId).listen('MatchStateUpdated', (e) => {
             t.state = e.match.state
             t.winnerId = e.match.winner_id
@@ -111,6 +115,8 @@ export default {
             t.turn = e.match.turn
             if (!t.isMyTurn)
                 t.state = 'attacking-stand-by'
+            else
+                t.state = 'attacking'
         })
     }
 }

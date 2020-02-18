@@ -7,5 +7,6 @@ Route::post('/board/{target_board_id}/attack', 'AttackController@create');
 Route::get('/board/{target_board_id}/attacks', 'BoardController@getAttacks');
 
 Route::get('/match/{match_id}/state', 'MatchController@getState');
+Route::get('/match/{match_id}/winner', 'MatchController@getWinner');
 
 Route::post('login', 'UserController@login');

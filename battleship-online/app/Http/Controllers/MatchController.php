@@ -33,6 +33,7 @@ class MatchController extends Controller
         }
 
         return view('match', [
+            'user_id' => $sessionId,
             'match_id' => $match->id,
             'own_board' => $ownBoard,
             'enemy_board' => $enemyBoard
@@ -42,6 +43,11 @@ class MatchController extends Controller
     public function getState($matchId)
     {
         return Match::findOrFail($matchId)->state;
+    }
+
+    public function getWinner($matchId)
+    {
+        return Match::findOrFail($matchId)->winner_id;
     }
 
     private function assignMatch($userId)

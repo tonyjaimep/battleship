@@ -6,6 +6,7 @@ use App\Match;
 
 use App\Events\MatchStateUpdated;
 use App\Events\MatchWon;
+use App\Events\MatchTurn;
 
 class MatchObserver
 {
