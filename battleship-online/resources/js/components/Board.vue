@@ -88,7 +88,7 @@ export default {
             axios.post('board/' + this.id + '/attack', data);
         },
         cellClass(x, y) {
-            let attack = _.find(this.attacks, { target_x: x, target_y: y})
+            let attack = _.find(this.attacks, { target_x: Number(x), target_y: Number(y)})
             let result = 'cell'
 
             if (attack) {
@@ -201,12 +201,16 @@ export default {
             t.attacks = r.data
         })
 
-        Echo.channel('board.' + this.id).listen('AttackSent', (e) => {
-            t.attacks.push(e.attack)
-        }).listen('PieceDestroyed', (e) => {
-            let idx = _.findIndex(t.ships, {id: e.piece.id})
-            t.ships.splice(idx)
-        });
+        Echo.channel('board.' + this.id)
+            .listen('AttackSent', (e) => {
+                let attack = e.attack
+                attack.target_x = Number(attack.target_x)
+                attack.target_y = Number(attack.target_y)
+                t.attacks.push(attack)
+            }).listen('PieceDestroyed', (e) => {
+                let idx = _.findIndex(t.ships, {id: e.piece.id})
+                t.ships.splice(idx)
+            });
     }
 }
 </script>
