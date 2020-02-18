@@ -14,6 +14,11 @@ class MatchObserver
         if ($match->getOriginal('state') != $match->state) {
             broadcast(new MatchStateUpdated($match));
         }
+
+        if ($match->getOriginal('turn') != $match->turn) {
+            broadcast(new MatchTurn($match));
+        }
+
         if ($match->winner_id && $match->getOriginal('winner_id') == NULL) {
             broadcast(new MatchWon($match));
         }
