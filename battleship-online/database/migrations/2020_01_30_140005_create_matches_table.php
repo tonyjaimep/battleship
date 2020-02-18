@@ -22,6 +22,8 @@ class CreateMatchesTable extends Migration
             $table->string('winner_id')->nullable();
             $table->string('state')->nullable();
 
+            $table->string('turn')->nullable();
+
             $table->foreign('user_a_id')->references('id')->on('sessions');
             $table->foreign('user_b_id')->references('id')->on('sessions');
             $table->foreign('winner_id')->references('id')->on('sessions')->onDelete('cascade');
