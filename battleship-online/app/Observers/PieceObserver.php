@@ -20,13 +20,13 @@ class PieceObserver
         // all pieces have been placed
         if ($boardA->pieces->count() >= 4 && $boardB->pieces->count() >= 4) {
             $match->state = "attacking";
+            $match->turn = $match->user_a_id;
             $match->save();
         }
     }
 
     public function deleted(Piece $piece)
     {
-        \Log::debug('Piece ' . $piece->id . 'destroyed');
         broadcast(new PieceDestroyed($piece));
     }
 }
