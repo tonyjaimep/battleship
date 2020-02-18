@@ -44,6 +44,7 @@ export default {
     data() {
         return {
             state: '',
+            turn: null,
             availableShips: [
                 {
                     position: { x: 0, y: 0 },
@@ -79,7 +80,10 @@ export default {
                     return "Colocando fichas"
                     break
                 case 'attacking':
-                    return "Ataque"
+                    return "Su turno de atacar"
+                    break
+                case 'attacking-stand-by':
+                    return "Turno de su adversario"
                     break
                 case 'finished':
                     return this.winnerId == this.userId ? "Victoria" : "Derrota"
@@ -88,6 +92,9 @@ export default {
                     return "Espere"
                     break
             }
+        },
+        isMyTurn() {
+            return this.turn == this.userId
         }
     },
     mounted() {
@@ -99,6 +106,11 @@ export default {
         Echo.channel('match.' + this.matchId).listen('MatchStateUpdated', (e) => {
             t.state = e.match.state
             t.winnerId = e.match.winner_id
+            t.turn = e.match.turn
+        }).listen('MatchTurn', (e) => {
+            t.turn = e.match.turn
+            if (!t.isMyTurn)
+                t.state = 'attacking-stand-by'
         })
     }
 }
