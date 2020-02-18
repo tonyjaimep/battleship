@@ -11,7 +11,7 @@ class Match extends Model
 
     public function scopeAvailable($query)
     {
-        return $query->whereNull('user_b_id');
+        return $query->whereNull('user_b_id')->whereNull('winner_id');
     }
 
     public function setUserBIdAttribute($value)
