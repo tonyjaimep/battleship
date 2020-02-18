@@ -26,6 +26,15 @@ class AttackSent implements ShouldBroadcastNow
     public function __construct(Attack $attack)
     {
         $this->attack = $attack;
+        $match = $attack->match;
+
+        // toggle turn
+        if ($match->turn == $match->user_a_id)
+            $match->turn = $match->user_b_id
+        else
+            $match->turn = $match->user_a_id
+
+        $match->save();
     }
 
     /**
