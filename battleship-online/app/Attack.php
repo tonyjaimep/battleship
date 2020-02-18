@@ -41,6 +41,6 @@ class Attack extends Model
 
     public function piece()
     {
-        return $this->belongsTo(Piece::class, 'target_piece_id');
+        return $this->belongsTo(Piece::class, 'hit_piece_id');
     }
 }

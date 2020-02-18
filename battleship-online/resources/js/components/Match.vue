@@ -4,7 +4,7 @@
         <div class="row text-center">
             <div class="offset-1 col-5">
                 <h2>Su tablero</h2>
-                <board :id="ownBoard.id" @shipPlaced="availableShips.shift()" :match-id="matchId" :size="ownBoard.size" modality="own" class="own" :state="state" :available-ships="availableShips"></board>
+                <board :id="ownBoard.id" @shipPlaced="availableShips = availableShips.splice(1)" :match-id="matchId" :size="ownBoard.size" modality="own" class="own" :state="state" :available-ships="availableShips"></board>
             </div>
             <div class="col-5">
                 <h2>Su adversario</h2>
@@ -25,6 +25,9 @@
             <template v-else-if="state == 'waiting-opponent'">
                 Espere a su adversario
             </template>
+            <template v-else-if="state == 'finished'">
+                Gracias por jugar. Regrese a la <a href="/">página principal</a> para empezar un juego nuevo.
+            </template>
             <template v-else>
                 Espere
             </template>
@@ -37,7 +40,7 @@ import Board from './Board'
 
 export default {
     components: { Board },
-    props: ['match-id', 'own-board', 'enemy-board'],
+    props: ['match-id', 'own-board', 'enemy-board', 'user-id'],
     data() {
         return {
             state: '',
@@ -62,7 +65,8 @@ export default {
                     length: 2,
                     orientation: 'v'
                 }
-            ]
+            ],
+            winnerId: -1
         }
     },
     computed: {
@@ -76,6 +80,9 @@ export default {
                     break
                 case 'attacking':
                     return "Ataque"
+                    break
+                case 'finished':
+                    return this.winnerId == this.userId ? "Victoria" : "Derrota"
                     break
                 default:
                     return "Espere"
@@ -91,6 +98,7 @@ export default {
 
         Echo.channel('match.' + this.matchId).listen('MatchStateUpdated', (e) => {
             t.state = e.match.state
+            t.winnerId = e.match.winner_id
         })
     }
 }

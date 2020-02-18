@@ -16,6 +16,9 @@ class AttackController extends Controller
 
         $attack->save();
 
+        if ($attack->hit_piece_id)
+            $attack->piece->checkHealth();
+
         return response()->json($attack);
     }
 }

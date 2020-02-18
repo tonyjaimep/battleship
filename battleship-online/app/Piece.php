@@ -58,7 +58,10 @@ class Piece extends Model
 
     public function checkHealth()
     {
-        if ($this->length <= $this->attacks->count())
+        \Log::debug('Piece length is ' . $this->length . '. Attacks count is '. $this->attacks->count());
+        if ($this->length <= $this->attacks->count()) {
+            \Log::debug('Deleting piece');
             $this->delete();
+        }
     }
 }

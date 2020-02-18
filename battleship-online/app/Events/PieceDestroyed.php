@@ -46,6 +46,6 @@ class PieceDestroyed implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new Channel('match.' . $piece->board->match->id);
+        return new Channel('board.' . $this->piece->board_id);
     }
 }

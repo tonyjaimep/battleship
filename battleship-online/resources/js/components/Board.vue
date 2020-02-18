@@ -2,7 +2,7 @@
     <div class="board" @click.right.prevent="toggleNewShipOrientation" :class="[modality, state]">
         <div class="container" @click="placeNewShip">
             <ship v-for="ship in ships" :origin="boardOrigin" :cell-size="cellHeight" :position="ship.position" :orientation="ship.orientation" :length="ship.length" :key="'ship-' + ship.position.x + '-' + ship.position.y"/>
-            <ship v-if="modality == 'own' && state == 'placing'" :origin="boardOrigin" :cell-size="cellHeight" :position="newShip.position" :orientation="newShip.orientation" :length="newShip.length" key="new-ship" :class="{'invalid-position': !isValidNewShipPosition}"/>
+            <ship v-if="modality == 'own' && state == 'placing' && availableShips.length" :origin="boardOrigin" :cell-size="cellHeight" :position="newShip.position" :orientation="newShip.orientation" :length="newShip.length" key="new-ship" :class="{'invalid-position': !isValidNewShipPosition}"/>
             <div class="row" :class="'row-cols-' + size" v-for="row in size">
                 <div :style="{ 'height': cellHeight + 'px' }"
                     :class="cellClass(column, row)"
@@ -210,7 +210,7 @@ export default {
                 t.attacks.push(attack)
             }).listen('PieceDestroyed', (e) => {
                 let idx = _.findIndex(t.ships, {id: e.piece.id})
-                t.ships.splice(idx)
+                t.ships.splice(idx, 1)
             });
     }
 }
