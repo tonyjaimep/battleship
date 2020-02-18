@@ -19,6 +19,8 @@ class Board extends Model
         foreach ($this->pieces as $piece) {
             if ($piece->hit($attack->target_x, $attack->target_y)) {
                 $attack->hit_piece_id = $piece->id;
+                $attack->save();
+                $piece->checkHealth();
                 return true;
             }
         }

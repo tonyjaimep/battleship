@@ -56,7 +56,7 @@ class Piece extends Model
         return $this->hasMany(Attack::class, 'hit_piece_id');
     }
 
-    private function checkHealth()
+    public function checkHealth()
     {
         if ($this->length <= $this->attacks->count())
             $this->delete();

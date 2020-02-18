@@ -206,6 +206,7 @@ export default {
                 let attack = e.attack
                 attack.target_x = Number(attack.target_x)
                 attack.target_y = Number(attack.target_y)
+                attack.hit = Boolean(attack.hit_piece_id)
                 t.attacks.push(attack)
             }).listen('PieceDestroyed', (e) => {
                 let idx = _.findIndex(t.ships, {id: e.piece.id})

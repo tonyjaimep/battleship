@@ -9,6 +9,12 @@ class Attack extends Model
 {
     public $timestamps = false;
 
+    protected $casts = [
+        'hit' => 'bool',
+        'target_x' => 'integer',
+        'target_y' => 'integer',
+    ];
+
     public function targetBoard()
     {
         return $this->belongsTo(Board::class);
@@ -31,5 +37,10 @@ class Attack extends Model
     private function calculateIsHit()
     {
         return $this->attributes['hit'] = $this->targetBoard->isHit($this);
+    }
+
+    public function piece()
+    {
+        return $this->belongsTo(Piece::class, 'target_piece_id');
     }
 }
