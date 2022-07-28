@@ -17,7 +17,8 @@ class MatchController extends Controller
             $match = $this->assignMatch($sessionId);
             $request->session()->put('match_id', $match->id);
         } else {
-            if (!($match = Match::find($request->session()->get('match_id')))) {
+            // si no encuentra el match o uno sin ganar
+            if (!($match = Match::find($request->session()->get('match_id'))) || $match->winner_id) {
                 $match = $this->assignMatch($sessionId);
                 $request->session()->put('match_id', $match->id);
             }
