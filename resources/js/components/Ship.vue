@@ -1,5 +1,15 @@
 <template>
-    <div :style="{ 'width': width, 'height': height, 'left': x, 'top': y }" class="ship" :class="['ship-length-' + length, 'ship-orientation-' + orientation]"></div>
+    <div
+        :style="{
+            width: width,
+            height: height,
+            left: x,
+            top: y,
+            transform: `rotate(${rotation})`,
+            transformOrigin,
+        }"
+        class="ship"
+    ></div>
 </template>
 
 <script>
@@ -7,46 +17,44 @@ export default {
     props: {
         length: {
             type: Number,
-            required: true
+            required: true,
         },
         position: {
             type: Object,
-            required: true
+            required: true,
         },
         orientation: {
             type: String,
             required: true,
         },
-        'cell-size': {
+        "cell-size": {
             type: Number,
-            required: true
+            required: true,
         },
         origin: {
             type: Object,
-            required: true
-        }
+            required: true,
+        },
     },
     computed: {
         width() {
-            if (this.orientation === 'h') {
-                return this.cellSize * this.length + 'px'
-            } else {
-                return this.cellSize + 'px'
-            }
+            return this.cellSize * this.length + "px";
         },
         height() {
-            if (this.orientation === 'v') {
-                return this.cellSize * this.length + 'px'
-            } else {
-                return this.cellSize + 'px'
-            }
+            return this.cellSize + "px";
+        },
+        rotation() {
+            return this.orientation === "h" ? "0" : "90deg";
+        },
+        transformOrigin() {
+            return this.cellSize / 2 + "px center";
         },
         x() {
-            return this.origin.x + this.cellSize * (this.position.x - 1) + 'px'
+            return this.cellSize * (this.position.x - 1) + "px";
         },
         y() {
-            return this.origin.y + this.cellSize * (this.position.y - 1) + 'px'
-        }
-    }
-}
+            return this.cellSize * (this.position.y - 1) + "px";
+        },
+    },
+};
 </script>

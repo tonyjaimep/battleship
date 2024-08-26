@@ -1,0 +1,39 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app:/usr/src/app/app
+      - ./routes:/usr/src/app/routes
+      - ./composer.json:/usr/src/app/composer.json
+      - ./composer.lock:/usr/src/app/composer.lock
+      - ./public:/usr/src/app/public
+      - ./config:/usr/src/app/config
+      - ./database:/usr/src/app/database
+      - ./resources:/usr/src/app/resources
+      - ./routes:/usr/src/app/routes
+      - ./storage:/usr/src/app/storage
+      - ./tests:/usr/src/app/tests
+    env_file:
+      - ./.env
+  postgres:
+    image: postgres
+    environment:
+      - POSTGRES_USER=battleship
+      - POSTGRES_PASSWORD=battleship
+      - POSTGRES_DB=battleship
+    ports:
+      - "5432:5432"
+  asset-builder:
+    image: node:16-alpine
+    volumes:
+      - ./resources/js:/usr/src/app/resources/js
+      - ./resources/sass:/usr/src/app/resources/sass
+      - ./public:/usr/src/app/public
+      - ./package.json:/usr/src/app/package.json
+      - ./package-lock.json:/usr/src/app/package-lock.json
+      - ./webpack.mix.js:/usr/src/app/webpack.mix.js
+    env_file: ./.env
+    working_dir: "/usr/src/app"
+    command: sh -c "npm install && ls node_modules && npm run watch"

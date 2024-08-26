@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 use App\Piece;
-use App\Match;
+use App\GameMatch;
 use App\Attack;
 
 class Board extends Model
@@ -33,9 +33,9 @@ class Board extends Model
         return $this->hasMany(Piece::class);
     }
 
-    public function match()
+    public function gameMatch()
     {
-        return $this->belongsTo(Match::class);
+        return $this->belongsTo(GameMatch::class);
     }
 
     public function attacks()

@@ -10,26 +10,22 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-use App\Match;
+use App\GameMatch;
 
-class MatchWon implements ShouldBroadcastNow
+class GameMatchWon implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $match;
+    public $gameMatch;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Match $match)
+    public function __construct(GameMatch $gameMatch)
     {
-        $this->match = $match;
-        $match->state = 'finished';
-        $match->save();
-        $match->boardA->destroy();
-        $match->boardB->destroy();
+        $this->gameMatch = $gameMatch;
     }
 
     /**
@@ -39,6 +35,6 @@ class MatchWon implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new Channel('match.' . $this->match->id);
+        return new Channel('gameMatch.' . $this->gameMatch->id);
     }
 }

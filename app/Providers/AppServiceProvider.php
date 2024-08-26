@@ -4,8 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
-use App\Match;
-use App\Observers\MatchObserver;
+use App\GameMatch;
+use App\Observers\GameMatchObserver;
 
 use App\Piece;
 use App\Observers\PieceObserver;
@@ -33,7 +33,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Attack::observe(AttackObserver::class);
-        Match::observe(MatchObserver::class);
+        GameMatch::observe(GameMatchObserver::class);
         Piece::observe(PieceObserver::class);
     }
 }

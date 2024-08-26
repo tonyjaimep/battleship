@@ -1,10 +1,10 @@
-@import 'variables';
-@import '~bootstrap/scss/bootstrap';
+@import "variables";
+@import "~bootstrap/scss/bootstrap";
 
 body {
     background-color: #001;
-    font-family: 'Space Mono', monospace;
-    color: #DDD;
+    font-family: "Space Mono", monospace;
+    color: #ddd;
 }
 
 .board {
@@ -36,9 +36,10 @@ body {
     background-color: $ship-background;
     border-radius: $board-border-radius;
     z-index: 10;
-    position: fixed;
+    position: absolute;
     box-shadow: 0 0 0.5em rgba(0, 0, 0, 0.8);
     transition-duration: 200ms;
+    transition-property: transform;
     &.invalid-position {
         opacity: 0.6;
     }
